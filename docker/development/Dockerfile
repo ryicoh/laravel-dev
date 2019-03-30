@@ -1,10 +1,15 @@
 FROM php:7.3-fpm
 
-RUN docker-php-ext-install pdo_mysql mysqli mbstring
-
 WORKDIR /app
 ADD . .
+
+RUN apt update && \
+    apt install -y curl git unzip && \
+		curl -sS https://getcomposer.org/installer | php && \
+		mv composer.phar /usr/local/bin/composer && \
+		composer self-update && \
+    docker-php-ext-install pdo_mysql mysqli mbstring
+
 EXPOSE 8000
 
 CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
-
