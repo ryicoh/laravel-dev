@@ -4,7 +4,8 @@ WORKDIR /app
 ADD . .
 
 RUN apt update && \
-    apt install -y curl git unzip && \
+		curl -sL https://deb.nodesource.com/setup_10.x | bash && \
+    apt install -y curl git unzip nodejs && \
 		curl -sS https://getcomposer.org/installer | php && \
 		mv composer.phar /usr/local/bin/composer && \
 		composer self-update && \

@@ -11,5 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+glob.sync('resources/sass/*.scss').map(function(file) {
+	mix.sass(file, 'public/css');
+});
+
+glob.sync('resources/js/*.js').map(function(file) {
+	mix.js(file, 'public/js').webpackConfig({
+		module: {
+			rules: [{
+				test: /\.pug$/,
+				loader: 'pug-plain-loader'
+			}]
+		}
+	});
+});
